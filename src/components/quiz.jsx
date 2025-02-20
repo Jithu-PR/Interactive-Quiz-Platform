@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { MCQ } from '../question answers/index';
+import { getQuizData, saveQuizData } from '../Utils/indexedDB';
+import { useNavigate } from 'react-router-dom';
 
 function Quiz() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -8,6 +10,7 @@ function Quiz() {
   const [score, setScore] = useState(0);
   const [timer, setTimer] = useState(30);
   const [isQuizOver, setIsQuizOver] = useState(false);
+  const navigate = useNavigate();
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
   useEffect(() => {
@@ -18,18 +21,45 @@ function Quiz() {
 
       return () => clearInterval(timerInterval);
     }
+  }, [isQuizOver]);
+
+  useEffect(() => {
+    const loadQuizProgress = async () => {
+      const savedData = await getQuizData();
+      if (savedData.length > 0) {
+        const latestData = savedData[savedData.length - 1];
+        setCurrentQuestion(latestData.currentQuestionIndex);
+        setScore(latestData.score);
+      }
+    };
+
+    loadQuizProgress();
   }, []);
 
   useEffect(() => {
     if (timer === 0 && !isQuizOver) {
-      setCurrentQuestion(currentQuestion + 1);
-      setTimer(30);
-    }
+      if (currentQuestion < MCQ.length - 1) {
+        setCurrentQuestion(currentQuestion + 1);
+        setTimer(30);
+      } else {
+        console.log('Last question reached. Resetting quiz...');
+        setIsQuizOver(true);
+      }
+    } else return;
   }, [timer, isQuizOver]);
 
   const handleAnswer = async (option) => {
     setSelectedAnswer(option);
     console.log(option);
+
+    const currentQuestionData = {
+      question: MCQ[currentQuestion].question,
+      selectedAnswer: option,
+      score: score,
+      currentQuestionIndex: currentQuestion,
+    };
+
+    saveQuizData(currentQuestionData);
 
     if (option === MCQ[currentQuestion].answer) {
       setFeedback('Correct!');
@@ -47,7 +77,17 @@ function Quiz() {
       setTimer(30);
     } else {
       setIsQuizOver(true);
+      setTimer(0);
     }
+  };
+
+  const tryAgain = () => {
+    setCurrentQuestion(0);
+    setScore(0);
+    setTimer(30);
+    setSelectedAnswer('');
+    setFeedback('');
+    setIsQuizOver(false);
   };
 
   const currentMCQ = MCQ[currentQuestion];
@@ -97,7 +137,15 @@ function Quiz() {
         <p className="mt-4 text-gray-700 font-medium">
           Score: {score} / {MCQ.length}
         </p>
-        {isQuizOver && <p className="mt-4 text-xl font-bold">Quiz Over!</p>}
+        {isQuizOver && (
+          <div>
+            <p className="mt-4 text-xl font-bold">Quiz Over!</p>
+            <button onClick={() => navigate('/quiz-history')}>
+              View Quiz history
+            </button>
+            <button onClick={() => tryAgain()}>Try again</button>
+          </div>
+        )}
       </div>
     </div>
   );

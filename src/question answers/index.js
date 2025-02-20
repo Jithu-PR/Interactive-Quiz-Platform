@@ -32,16 +32,6 @@ export const MCQ = [
     answer: 'C',
   },
   {
-    question: 'Which planet is the closest to Sun?',
-    options: [
-      { optionId: 'A', optionText: 'Venus' },
-      { optionId: 'B', optionText: 'Mercury' },
-      { optionId: 'C', optionText: 'Earth' },
-      { optionId: 'D', optionText: 'Mars' },
-    ],
-    answer: 'B',
-  },
-  {
     question: 'Which chemical symbol stands for Gold?',
     options: [
       { optionId: 'A', optionText: 'Au' },
@@ -67,10 +57,6 @@ export const MCQ = [
     answer: '40',
   },
   {
-    question: 'What is the value of 12+28?',
-    answer: '40',
-  },
-  {
     question: 'How many states are there in United States?',
     answer: '50',
   },
@@ -84,7 +70,7 @@ export const MCQ = [
   },
   {
     question:
-      'If a car travels at 50mph for 2 hours, how many miles does it travel?',
+      'If a car travels at 60mph for 2 hours, how many miles does it travel?',
     answer: '120',
   },
 ];
