@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { MCQ } from '../question answers/index';
-import { getQuizData, saveQuizData } from '../Utils/indexedDB';
+import { saveQuizData } from '../Utils/indexedDB';
 import { useNavigate } from 'react-router-dom';
 
 function Quiz() {
@@ -21,19 +21,6 @@ function Quiz() {
 
       return () => clearInterval(timerInterval);
     }
-  }, [isQuizOver]);
-
-  useEffect(() => {
-    const loadQuizProgress = async () => {
-      const savedData = await getQuizData();
-      if (savedData.length > 0) {
-        const latestData = savedData[savedData.length - 1];
-        setCurrentQuestion(latestData.currentQuestionIndex);
-        setScore(latestData.score);
-      }
-    };
-
-    loadQuizProgress();
   }, []);
 
   useEffect(() => {
@@ -42,11 +29,10 @@ function Quiz() {
         setCurrentQuestion(currentQuestion + 1);
         setTimer(30);
       } else {
-        console.log('Last question reached. Resetting quiz...');
         setIsQuizOver(true);
       }
     } else return;
-  }, [timer, isQuizOver]);
+  }, [timer]);
 
   const handleAnswer = async (option) => {
     setSelectedAnswer(option);
@@ -72,21 +58,23 @@ function Quiz() {
 
     if (currentQuestion < MCQ.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
-      setSelectedAnswer('');
-      setFeedback('');
-      setTimer(30);
+      reset();
     } else {
       setIsQuizOver(true);
       setTimer(0);
     }
   };
 
-  const tryAgain = () => {
-    setCurrentQuestion(0);
-    setScore(0);
+  const reset = () => {
     setTimer(30);
     setSelectedAnswer('');
     setFeedback('');
+  };
+
+  const tryAgain = () => {
+    reset();
+    setCurrentQuestion(0);
+    setScore(0);
     setIsQuizOver(false);
   };
 
@@ -94,56 +82,72 @@ function Quiz() {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
-        <h2 className="text-xl font-bold mb-4">Quiz Time ⏳ {timer}s</h2>
-        <div>
-          <h3 className="text-lg font-semibold mb-2">{currentMCQ.question}</h3>
-          <div className="space-y-2">
-            {currentMCQ.options ? (
-              currentMCQ.options.map((option, index) => (
-                <button
-                  key={index}
-                  onClick={() => handleAnswer(option.optionId)}
-                  className={`block w-full p-2 rounded text-black font-medium transition ${
-                    selectedAnswer === option.optionId
-                      ? option.optionId === currentMCQ.answer
-                        ? 'bg-green-500'
-                        : 'bg-red-500'
-                      : 'bg-blue-500 hover:bg-blue-700'
-                  }`}
-                >
-                  {option.optionText}
-                </button>
-              ))
-            ) : (
-              <div>
-                <input
-                  type="number"
-                  value={selectedAnswer}
-                  onChange={(e) => setSelectedAnswer(e.target.value)}
-                  className="border border-gray-300 p-2 w-full rounded"
-                />
-                <button
-                  onClick={() => handleAnswer(selectedAnswer)}
-                  className="bg-blue-500 text-black p-2 rounded mt-4 w-full"
-                >
-                  Submit Answer
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
-        {feedback && <p className="mt-3 text-lg font-semibold">{feedback}</p>}
-        <p className="mt-4 text-gray-700 font-medium">
-          Score: {score} / {MCQ.length}
-        </p>
-        {isQuizOver && (
+      <div className=" p-6 rounded-lg shadow-lg w-full max-w-md">
+        {isQuizOver ? (
           <div>
-            <p className="mt-4 text-xl font-bold">Quiz Over!</p>
-            <button onClick={() => navigate('/quiz-history')}>
-              View Quiz history
-            </button>
-            <button onClick={() => tryAgain()}>Try again</button>
+            <p className="mt-4 mb-4 text-black text-xl font-bold">Quiz Over!</p>
+            <p className="mb-5 text-4xl text-gray-700 font-large">
+              Score: {score} / {MCQ.length}
+            </p>
+            <div className="flex items-center justify-between">
+              <button onClick={() => navigate('/quiz-history')}>
+                View Quiz history
+              </button>
+              <button onClick={() => tryAgain()}>Try again</button>
+              <button onClick={() => navigate('/')}>Quit</button>
+            </div>
+          </div>
+        ) : (
+          <div>
+            <h2 className="text-black text-xl font-bold mb-4">
+              Quiz Time ⏳ {timer}s
+            </h2>
+            <h3 className="text-black text-lg font-semibold mb-2">
+              {currentMCQ.question}
+            </h3>
+            <div className="space-y-2">
+              {currentMCQ.options ? (
+                currentMCQ.options.map((option, index) => (
+                  <button
+                    key={index}
+                    onClick={() => handleAnswer(option.optionId)}
+                    className={`block w-full p-2 rounded text-gray font-medium transition ${
+                      selectedAnswer === option.optionId
+                        ? option.optionId === currentMCQ.answer
+                          ? 'bg-green-500'
+                          : 'bg-red-500'
+                        : 'bg-blue-500 hover:bg-blue-700'
+                    }`}
+                  >
+                    {option.optionText}
+                  </button>
+                ))
+              ) : (
+                <div>
+                  <input
+                    type="number"
+                    value={selectedAnswer}
+                    onChange={(e) => setSelectedAnswer(e.target.value)}
+                    className="border border-gray-300 text-black p-2 w-full rounded"
+                  />
+                  <button
+                    onClick={() => handleAnswer(selectedAnswer)}
+                    disabled={isQuizOver}
+                    className="bg-blue-500 text-gray p-2 rounded mt-4 w-full"
+                  >
+                    Submit Answer
+                  </button>
+                </div>
+              )}
+            </div>
+            {feedback && (
+              <p className="mt-3 text-black text-lg font-semibold">
+                {feedback}
+              </p>
+            )}
+            <p className="mt-4 text-gray-700 font-medium">
+              Score: {score} / {MCQ.length}
+            </p>
           </div>
         )}
       </div>
