@@ -35,17 +35,16 @@ function Quiz() {
   }, [timer]);
 
   const handleAnswer = async (option) => {
-    console.log(option);
-    if(selectedAnswer && option.optionId) return
+    if(selectedAnswer && option.optionId) return //Prevent multiple answers for mcq questions.
+
     const answer = option.optionId ? option.optionId : option
     setSelectedAnswer(answer);
     
-
     if (answer === MCQ[currentQuestion].answer) {
-      setFeedback('Correct!');
+      setFeedback('Correct! ✔');
       setScore(score + 1);
     } else {
-      setFeedback('Incorrect!');
+      setFeedback('Incorrect! ✘');
     }
 
     const currentQuestionData = {
@@ -84,8 +83,8 @@ function Quiz() {
   const currentMCQ = MCQ[currentQuestion];
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className=" p-6 rounded-lg shadow-lg w-full max-w-md">
+    <div className="flex items-center justify-center min-h-screen w-screen bg-gray-100">
+      <div className="p-6 rounded-lg shadow-lg w-full max-w-md">
         {isQuizOver ? (
           <div>
             <p className="mt-4 mb-4 text-black text-xl font-bold">Quiz Over!</p>
@@ -96,7 +95,7 @@ function Quiz() {
               <button onClick={() => navigate('/quiz-history')}>
                 View Quiz history
               </button>
-              <button onClick={() => tryAgain()}>Try again</button>
+              <button className='mx-3' onClick={() => tryAgain()}>Try again</button>
               <button onClick={() => navigate('/')}>Quit</button>
             </div>
           </div>
@@ -114,13 +113,7 @@ function Quiz() {
                   <button
                     key={index}
                     onClick={() => handleAnswer(option)}
-                    className={`block w-full p-2 rounded text-gray font-medium transition ${
-                      selectedAnswer === option.optionId
-                        ? option.optionId === currentMCQ.answer
-                          ? 'bg-green-500'
-                          : 'bg-red-500'
-                        : 'bg-blue-500 hover:bg-blue-700'
-                    }`}
+                    className={"block w-full p-2 rounded text-gray font-medium"}
                   >
                     {option.optionText}
                   </button>
@@ -144,11 +137,11 @@ function Quiz() {
               )}
             </div>
             {feedback && (
-              <p className="mt-3 text-black text-lg font-semibold">
+              <p className="mt-3 ml-3 text-3xl text-black font-semibold">
                 {feedback}
               </p>
             )}
-            <p className="mt-4 text-gray-700 font-medium">
+            <p className="mt-4 text-gray-700 text-lg font-medium">
               Score: {score} / {MCQ.length}
             </p>
           </div>

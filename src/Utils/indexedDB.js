@@ -55,3 +55,20 @@ export const getQuizData = () => {
     });
   });
 };
+
+export const clearQuizData = () => {
+  openDatabase().then((db) => {
+    const transaction = db.transaction('quizData', 'readwrite');
+    const store = transaction.objectStore('quizData');
+    
+    store.clear();
+
+    transaction.oncomplete = () => {
+      console.log('All quiz data cleared.');
+    };
+
+    transaction.onerror = (e) => {
+      console.error('Error clearing quiz data:', e.target.errorCode);
+    };
+  });
+};
