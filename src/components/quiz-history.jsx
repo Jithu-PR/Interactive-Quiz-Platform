@@ -28,7 +28,7 @@ function QuizHistory() {
         <h2 className="text-black text-xl font-bold mb-4">Quiz History</h2>
         {quizHistory.length === 0 ? (
           <div>
-            <p className="py-6 text-black text-3xl text-black">No quiz history found!</p>
+            <p className="py-6 text-black text-3xl">No quiz history found!</p>
             <button
               onClick={() => navigate("/")}
               className="px-8 py-3 mb-3 w-full bg-blue-700 hover:bg-blue-800 text-xl text-gray font-semibold rounded-lg shadow-lg transition duration-300"
