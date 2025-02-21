@@ -35,11 +35,11 @@ function Quiz() {
   }, [timer]);
 
   const handleAnswer = async (option) => {
-    if(selectedAnswer && option.optionId) return //Prevent multiple answers for mcq questions.
+    if (selectedAnswer && option.optionId) return; //Prevent multiple answers for mcq questions.
 
-    const answer = option.optionId ? option.optionId : option
+    const answer = option.optionId ? option.optionId : option;
     setSelectedAnswer(answer);
-    
+
     if (answer === MCQ[currentQuestion].answer) {
       setFeedback('Correct! ✔');
       setScore(score + 1);
@@ -95,7 +95,9 @@ function Quiz() {
               <button onClick={() => navigate('/quiz-history')}>
                 View Quiz history
               </button>
-              <button className='mx-3' onClick={() => tryAgain()}>Try again</button>
+              <button className="mx-3" onClick={() => tryAgain()}>
+                Try again
+              </button>
               <button onClick={() => navigate('/')}>Quit</button>
             </div>
           </div>
@@ -113,7 +115,7 @@ function Quiz() {
                   <button
                     key={index}
                     onClick={() => handleAnswer(option)}
-                    className={"block w-full p-2 rounded text-gray font-medium"}
+                    className={'block w-full p-2 rounded text-gray font-medium'}
                   >
                     {option.optionText}
                   </button>

@@ -23,13 +23,14 @@ function QuizHistory() {
         <h2 className="text-black text-xl font-bold mb-4">Quiz History</h2>
         {quizHistory.length === 0 ? (
           <div>
-          <p className='py-6 text-3xl'>No quiz history found!</p>
-          <button
-        onClick={() => navigate("/")}
-        className="px-8 py-3 mb-3 w-full bg-blue-700 hover:bg-blue-800 text-xl text-gray font-semibold rounded-lg shadow-lg transition duration-300">
-          Go Back
-        </button>
-        </div>
+            <p className="py-6 text-3xl">No quiz history found!</p>
+            <button
+              onClick={() => navigate('/')}
+              className="px-8 py-3 mb-3 w-full bg-blue-700 hover:bg-blue-800 text-xl text-gray font-semibold rounded-lg shadow-lg transition duration-300"
+            >
+              Go Back
+            </button>
+          </div>
         ) : (
           <div className="grid grid-cols-2 gap-1">
             {quizHistory.map((quiz, index) => (
@@ -46,13 +47,16 @@ function QuizHistory() {
               </div>
             ))}
             <button
-        onClick={() => clearQuizData()}
-        className="px-8 py-3 mb-3 w-full bg-blue-700 hover:bg-blue-800 text-xl text-gray font-semibold rounded-lg shadow-lg transition duration-300">
-          Clear History
-        </button>
+              onClick={() => {
+                clearQuizData();
+                window.location.reload();
+              }}
+              className="px-8 py-3 mb-3 w-[30vw] bg-blue-700 hover:bg-blue-800 text-xl text-gray font-semibold rounded-lg shadow-lg transition duration-300"
+            >
+              Clear History
+            </button>
           </div>
         )}
-        
       </div>
     </div>
   );
