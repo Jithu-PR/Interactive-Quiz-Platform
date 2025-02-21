@@ -1,0 +1,10 @@
+{
+    "redirects": [
+      {
+        "source": "/quiz-history",
+        "destination": "/quiz-history",
+        "permanent": false
+      }
+    ]
+  }
+  
