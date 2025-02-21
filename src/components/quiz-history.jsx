@@ -17,6 +17,11 @@ function QuizHistory() {
     loadQuizHistory();
   }, []);
 
+  const handleClearHistory = async () => {
+    await clearQuizData();
+    setQuizHistory([]);
+  };
+
   return (
     <div className="flex items-center justify-center min-h-screen w-screen bg-gray-100">
       <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg">
@@ -25,7 +30,7 @@ function QuizHistory() {
           <div>
             <p className="py-6 text-3xl">No quiz history found!</p>
             <button
-              onClick={() => navigate('/')}
+              onClick={() => navigate("/")}
               className="px-8 py-3 mb-3 w-full bg-blue-700 hover:bg-blue-800 text-xl text-gray font-semibold rounded-lg shadow-lg transition duration-300"
             >
               Go Back
@@ -47,10 +52,7 @@ function QuizHistory() {
               </div>
             ))}
             <button
-              onClick={() => {
-                clearQuizData();
-                window.location.reload();
-              }}
+              onClick={()=>handleClearHistory()}
               className="px-8 py-3 mb-3 w-[30vw] bg-blue-700 hover:bg-blue-800 text-xl text-gray font-semibold rounded-lg shadow-lg transition duration-300"
             >
               Clear History
