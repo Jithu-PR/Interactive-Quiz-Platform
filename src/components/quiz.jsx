@@ -35,24 +35,27 @@ function Quiz() {
   }, [timer]);
 
   const handleAnswer = async (option) => {
-    setSelectedAnswer(option);
     console.log(option);
+    if(selectedAnswer && option.optionId) return
+    const answer = option.optionId ? option.optionId : option
+    setSelectedAnswer(answer);
+    
 
-    const currentQuestionData = {
-      question: MCQ[currentQuestion].question,
-      selectedAnswer: option,
-      score: score,
-      currentQuestionIndex: currentQuestion,
-    };
-
-    saveQuizData(currentQuestionData);
-
-    if (option === MCQ[currentQuestion].answer) {
+    if (answer === MCQ[currentQuestion].answer) {
       setFeedback('Correct!');
       setScore(score + 1);
     } else {
       setFeedback('Incorrect!');
     }
+
+    const currentQuestionData = {
+      question: MCQ[currentQuestion].question,
+      selectedAnswer: answer,
+      score: score + 1,
+      currentQuestionIndex: currentQuestion,
+    };
+
+    saveQuizData(currentQuestionData);
 
     await sleep(1000);
 
@@ -110,7 +113,7 @@ function Quiz() {
                 currentMCQ.options.map((option, index) => (
                   <button
                     key={index}
-                    onClick={() => handleAnswer(option.optionId)}
+                    onClick={() => handleAnswer(option)}
                     className={`block w-full p-2 rounded text-gray font-medium transition ${
                       selectedAnswer === option.optionId
                         ? option.optionId === currentMCQ.answer
