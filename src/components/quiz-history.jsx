@@ -53,7 +53,7 @@ function QuizHistory() {
             ))}
             <button
               onClick={()=>handleClearHistory()}
-              className="px-8 py-3 mb-3 w-[30vw] bg-blue-700 hover:bg-blue-800 text-xl text-gray font-semibold rounded-lg shadow-lg transition duration-300"
+              className="px-8 py-3 mb-3 h-[50px] bg-blue-700 hover:bg-blue-800 text-xl text-gray font-semibold rounded-lg shadow-lg transition duration-300"
             >
               Clear History
             </button>

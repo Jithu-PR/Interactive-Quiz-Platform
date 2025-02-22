@@ -2,10 +2,10 @@ export const MCQ = [
   {
     question: 'Which planet is the closest to Sun?',
     options: [
-      { optionId: 'A', optionText: 'Venus' },
-      { optionId: 'B', optionText: 'Mercury' },
-      { optionId: 'C', optionText: 'Earth' },
-      { optionId: 'D', optionText: 'Mars' },
+      { id: 'A', text: 'Venus' },
+      { id: 'B', text: 'Mercury' },
+      { id: 'C', text: 'Earth' },
+      { id: 'D', text: 'Mars' },
     ],
     answer: 'B',
   },
@@ -13,10 +13,10 @@ export const MCQ = [
     question:
       'Which data structure organizes items in First-In,First-Out (FIFO) manner?',
     options: [
-      { optionId: 'A', optionText: 'Stack' },
-      { optionId: 'B', optionText: 'Queue' },
-      { optionId: 'C', optionText: 'Tree' },
-      { optionId: 'D', optionText: 'Graph' },
+      { id: 'A', text: 'Stack' },
+      { id: 'B', text: 'Queue' },
+      { id: 'C', text: 'Tree' },
+      { id: 'D', text: 'Graph' },
     ],
     answer: 'B',
   },
@@ -24,20 +24,20 @@ export const MCQ = [
     question:
       'Which of the following is primarly used for structuring web pages?',
     options: [
-      { optionId: 'A', optionText: 'Python' },
-      { optionId: 'B', optionText: 'Java' },
-      { optionId: 'C', optionText: 'HTML' },
-      { optionId: 'D', optionText: 'C++' },
+      { id: 'A', text: 'Python' },
+      { id: 'B', text: 'Java' },
+      { id: 'C', text: 'HTML' },
+      { id: 'D', text: 'C++' },
     ],
     answer: 'C',
   },
   {
     question: 'Which chemical symbol stands for Gold?',
     options: [
-      { optionId: 'A', optionText: 'Au' },
-      { optionId: 'B', optionText: 'Gd' },
-      { optionId: 'C', optionText: 'Ag' },
-      { optionId: 'D', optionText: 'Pt' },
+      { id: 'A', text: 'Au' },
+      { id: 'B', text: 'Gd' },
+      { id: 'C', text: 'Ag' },
+      { id: 'D', text: 'Pt' },
     ],
     answer: 'A',
   },
@@ -45,10 +45,10 @@ export const MCQ = [
     question:
       'Which of these process is not typically involved in refining petroleum?',
     options: [
-      { optionId: 'A', optionText: 'Fractional Distillation' },
-      { optionId: 'B', optionText: 'Cracking' },
-      { optionId: 'C', optionText: 'Polymerizaton' },
-      { optionId: 'D', optionText: 'Filtration' },
+      { id: 'A', text: 'Fractional Distillation' },
+      { id: 'B', text: 'Cracking' },
+      { id: 'C', text: 'Polymerizaton' },
+      { id: 'D', text: 'Filtration' },
     ],
     answer: 'D',
   },

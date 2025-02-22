@@ -35,9 +35,9 @@ function Quiz() {
   }, [timer]);
 
   const handleAnswer = async (option) => {
-    if (selectedAnswer && option.optionId) return; //Prevent multiple answers for mcq questions.
+    if (selectedAnswer && option.id) return; //Prevent multiple answers for mcq questions.
 
-    const answer = option.optionId ? option.optionId : option;
+    const answer = option.id ? option.id : option;
     setSelectedAnswer(answer);
 
     if (answer === MCQ[currentQuestion].answer) {
@@ -49,7 +49,7 @@ function Quiz() {
 
     const currentQuestionData = {
       question: MCQ[currentQuestion].question,
-      selectedAnswer: answer,
+      selectedAnswer: option.text ? option.text : option,
       score: score + 1,
       currentQuestionIndex: currentQuestion,
     };
@@ -117,7 +117,7 @@ function Quiz() {
                     onClick={() => handleAnswer(option)}
                     className={'block w-full p-2 rounded text-gray font-medium'}
                   >
-                    {option.optionText}
+                    {option.text}
                   </button>
                 ))
               ) : (
